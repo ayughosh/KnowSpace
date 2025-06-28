@@ -1,0 +1,696 @@
+/* 1. Pin neon-nav to the top and layer it above everything */
+.neon-nav {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 10;
+}
+
+/* 2. Give all pages a matching top-padding to clear that navbar */
+body {
+  padding-top: 4rem;    /* adjust if your navbar is taller or shorter */
+}
+
+
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(255,255,255,0.85);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 1050; /* Ensure it is above other content */
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    transition: opacity 0.3s ease-in-out;
+    opacity: 0; /* Initially hidden */
+    pointer-events: none; /* Prevent interaction when hidden */
+}
+
+#overlay.visible {
+    opacity: 1; /* Show overlay */
+    pointer-events: auto; /* Allow interaction */
+}
+
+#overlay .spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid rgba(0, 0, 0, 0.1);
+    border-top-color: #3498db; /* Spinner color */
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+#overlay .spinner-border {
+    /* this border setup matches Bootstrap’s default */
+    display: inline-block;
+    width: 3rem;
+    height: 3rem;
+    vertical-align: text-bottom;
+    border: 0.25em solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+
+    /* our fallback animation */
+    animation: spin 0.75s linear infinite !important;
+}
+
+/* define the spin animation */
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+#overlay.loading-text {
+    animation: none !important;
+}
+
+.d-none {
+    display: none !important;
+}
+
+/* style.css */
+
+/* full‐page animated gradient */
+body {
+  background: linear-gradient(120deg, #1f1c2c, #928dab, #2c3e50);
+  background-size: 600% 600%;
+  animation: gradientShift 20s ease infinite;
+  color: #f5f5f5;
+}
+
+/* keyframes for background shift */
+@keyframes gradientShift {
+  0%   { background-position:   0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position:   0% 50%; }
+}
+
+
+/* fade-in for your main heading */
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 2s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+/* EVERYTHING on upload.html turns black */
+/*.upload-page,
+.upload-page * {
+  color: #000 !important;
+}*/
+/* add this AFTER the old rules */
+.upload-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg,#6418c3 0%,#3f1dcb 30%,#09b2e5 100%);
+  background-size: 200% 200%;
+  animation: drift 20s ease-in-out infinite;
+}
+.upload-page .navbar a { color:#fff!important }
+
+
+/* =========================================================
+   Neon-themed file picker
+   =========================================================*/
+.upload-page input[type="file"] {
+  padding: .5rem 1rem;              /* taller like the other inputs */
+  background: transparent;          /* uncover card bg */
+  border: 2px solid #00e0ff;
+  color: #e0e0e0;
+  font-family: inherit;
+  letter-spacing: .05rem;
+  transition: background .25s, box-shadow .25s;
+}
+
+/* Chrome / Edge / Safari */
+.upload-page input[type="file"]::-webkit-file-upload-button {
+  background: transparent;
+  border: none;
+  color: #e0e0e0;
+  padding: 0;
+  margin-right: .75rem;             /* space before file name */
+}
+
+/* Firefox */
+.upload-page input[type="file"]::file-selector-button {
+  background: transparent;
+  border: none;
+  color: #e0e0e0;
+  padding: 0;
+  margin-right: .75rem;
+}
+
+/* hover focus */
+.upload-page input[type="file"]:hover,
+.upload-page input[type="file"]:focus {
+  background:#00e0ff; color:#0a0a0a;
+  box-shadow:0 0 12px #00e0ff,0 0 30px #ff0080;
+}
+
+/* ---------------------------------------------------
+   1. Scope everything to the upload page
+--------------------------------------------------- */
+.upload-page {
+  position: relative;
+  padding: 4rem 2rem;
+  /*background: #0a0a0a;*/  
+  min-height: 100vh;                         /* pitch-black base */
+  /*overflow: hidden;*/
+  color: #e0e0e0;                                /* off-white text */
+  min-height: 100vh;
+}
+
+/* subtle animated gradient overlay */
+.upload-page::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg,#6418c3 0%,#3f1dcb 30%,#09b2e5 100%);
+  background-size: 200% 200%;
+  animation: drift 20s ease-in-out infinite;
+  z-index: -1;   
+}
+@keyframes drift {
+  0%   {background-position: 0 50%;}
+  50%  {background-position: 100% 50%;}
+  100% {background-position: 0 50%;}
+}
+
+
+/* ---------------------------------------------------
+   2. Neon-glow heading
+--------------------------------------------------- */
+.upload-page h1 {
+  font-size: 3rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  position: relative;
+  animation: neonGlow 1.5s ease-in-out infinite alternate-reverse;
+}
+
+/* Neon keyframes */
+@keyframes neonGlow {
+  from {
+    text-shadow:
+      0 0 5px #00e0ff,
+      0 0 10px #00e0ff,
+      0 0 20px #ff0080,
+      0 0 30px #ff0080;
+  }
+  to {
+    text-shadow:
+      0 0 10px #00e0ff,
+      0 0 20px #00e0ff,
+      0 0 30px #ff0080,
+      0 0 40px #ff0080;
+  }
+}
+
+/* subtle background movement */
+@keyframes pulseGradient {
+  0%   { background-position: 0% 0%; }
+  50%  { background-position: 100% 100%; }
+  100% { background-position: 0% 0%; }
+}
+
+/* ---------------------------------------------------
+   3. Dark, glassy form controls
+--------------------------------------------------- */
+.upload-page .form-label {
+  color: #a8b2d1;                     /* soft grey-blue */
+  letter-spacing: .05rem;
+}
+
+.upload-page .form-control,
+.upload-page textarea {
+  background: rgba(20,20,20,0.8) !important;
+  border: 1px solid rgba(255,255,255,0.2) !important;
+  color: #e0e0e0 !important;
+  backdrop-filter: blur(4px);
+  transition: border-color .3s, box-shadow .3s;
+}
+
+.upload-page .form-control:focus,
+.upload-page textarea:focus {
+  border-color: #00e0ff !important;
+  box-shadow: 0 0 8px #00e0ff !important;
+  background: rgba(20,20,20,0.9) !important;
+}
+
+/* ---------------------------------------------------
+   4. Electric buttons
+--------------------------------------------------- */
+.upload-page .btn-primary,
+.upload-page .btn-primary:hover,
+.upload-page .btn-primary:focus,
+.upload-page .btn-primary:disabled,
+.upload-page .btn-primary.disabled {
+  background: transparent !important;
+  border: 2px solid #00e0ff !important;
+  color: #e0e0e0 !important;
+  text-transform: uppercase;
+  letter-spacing: .05rem;
+  box-shadow: 0 0 10px transparent;
+  transition: background .25s, color .25s, box-shadow .25s;
+}
+
+/* hover / focus */
+.upload-page .btn-primary:hover,
+.upload-page .btn-primary:focus {
+  background: #00e0ff !important;
+  color: #0a0a0a !important;
+  box-shadow: 0 0 12px #00e0ff, 0 0 30px #ff0080;
+}
+
+/* when disabled keep text visible but muted */
+.upload-page .btn-primary:disabled,
+.upload-page .btn-primary.disabled {
+  color: #00e0ff !important;
+  opacity: .6;               /* looks disabled without hiding the text */
+}
+
+/* keep secondary buttons consistent */
+.upload-page .btn-outline-secondary {
+  color: #e0e0e0;
+  border-color: rgba(255,255,255,0.3);
+}
+
+.upload-page .btn-outline-secondary:hover {
+  color: #00e0ff;
+  border-color: #00e0ff;
+  box-shadow: 0 0 8px #00e0ff;
+}
+
+/* ---------------------------------------------------
+   5. File-input button (re-shown here for context)
+--------------------------------------------------- */
+.upload-page input[type="file"]::-webkit-file-upload-button {
+  color: white !important;
+  background: transparent !important;
+  border: 1px solid #ccc !important;
+  padding: .375rem .75rem !important;
+  border-radius: .25rem !important;
+}
+.upload-page input[type="file"]::file-selector-button {
+  color: white !important;
+  background: transparent !important;
+  border: 1px solid #ccc !important;
+  padding: .375rem .75rem !important;
+  border-radius: .25rem !important;
+}
+/* Make list-group rows legible */
+.upload-page .list-group-item,
+.upload-page .list-group-item * {
+  color: #e0e0e0 !important;   /* or #fff */
+}
+.upload-page .list-group-item .btn {
+  color: white !important;           /* black text inside the white “View” button */
+}
+/* 1) Use Orbitron everywhere */
+body, h1, h2, h3, .btn {
+  font-family: 'Orbitron', sans-serif;
+}
+
+/* -----------------------------------------------------------------
+   Glassy card on the Upload screen – matches Home hero card
+   -----------------------------------------------------------------*/
+.uploader-card {
+  background: rgba(10,10,20,0.85);
+  backdrop-filter: blur(6px);
+  border-radius: .75rem;
+  /* drop the full-height entirely */
+  min-height: auto;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    0 0 40px rgba(0,224,255,.15),
+    0 0 60px rgba(255,0,128,.10);
+
+  /* constrain its width & give breathing room */
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 2rem 1.5rem;
+}
+
+/* ———————— make uploader‐card fill mobile viewport ———————— */
+/* ————— Mobile: make the upload card full-width & auto-height ————— */
+@media (max-width: 767px) {
+  .upload-page .uploader-card {
+    /* kill the full viewport height */
+    min-height: auto !important;
+    height: auto !important;
+
+    /* fill most of the screen */
+    width: 95% !important;
+    max-width: none !important;
+
+    /* center it */
+    margin: 1rem auto !important;
+
+    /* a bit more breathing room inside on phones */
+    padding: 2rem 1rem !important;
+  }
+}
+
+/* the whole page already has .upload-page + neon-bg, so uncover that */
+.upload-page {
+  background: transparent !important;   /* no flat grey */
+}
+
+
+/* 6) Wave divider styling */
+.wave-container {
+  position: relative;
+  width: 100%;
+  height: 3rem;
+  margin-bottom: -4rem; /* pull up over next section */
+  color: #001f24;       /* matches your navbar */
+}
+.wave {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* 7) Subtle link hover for “Choose File” text */
+input[type="file"]::-webkit-file-upload-button {
+  cursor: pointer;
+  background: linear-gradient(45deg, #ff00ff, #00e0ff);
+  border: none;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  transition: filter 0.2s;
+}
+input[type="file"]::-webkit-file-upload-button:hover {
+  filter: brightness(1.2);
+}
+
+/* 8) Tweak placeholder color */
+::placeholder {
+  color: rgba(255,255,255,0.6);
+  opacity: 1;
+}
+
+/* 9) Darken the page background to make neon pop */
+body {
+  background: #0f1f29;
+  color: #f5f5f5;
+}
+
+/* ===== page-wide gradient ============================================*/
+.landing-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg,#6418c3 0%,#3f1dcb 30%,#09b2e5 100%);
+  background-size: 200% 200%;
+  animation: drift 20s ease-in-out infinite;
+}
+@keyframes drift {
+  0% {background-position: 0 50%;}
+  50%{background-position:100% 50%;}
+  100%{background-position:0 50%;}
+}
+
+/* ===== centred card ===================================================*/
+.landing-wrapper {min-height: 100vh; padding: 4rem 2rem;}
+.neon-card{
+  background: rgba(15,15,20,0.88);
+  border-radius:1rem;      /* up from whatever default you had */ /* a bit more breathing room */
+  transition: transform .3s ease;
+  backdrop-filter: blur(6px);
+  max-width: none;
+  /* fill the screen edge-to-edge (minus 1rem total horizontal gutter) */
+  width: calc(100vw - 1rem);
+  /* a bit more breathing room top & bottom */
+  padding: 4rem 0.75rem;
+  /* optional: give it a slight scale boost */
+  transform: scale(1.05);
+  position: relative;
+  /*width: clamp(320px, 90vw, 1200px);*/
+  margin: 0 auto;
+  
+}
+@media (max-width: 768px) {
+  .landing-wrapper {padding: 1.5rem 0.5rem;}
+  .neon-card {
+    width: 95vw;
+    padding: 2rem 1rem;
+    transform: scale(1.03);
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+    min-height: 400px;
+  }
+}
+.neon-card::before{
+  /* subtle inner glow like screenshot */
+  content:"";
+  position:absolute; inset:0;
+  border-radius:1rem;
+  pointer-events:none;
+  box-shadow:0 0 60px rgba(0,224,255,0.25),
+             0 0 60px rgba(255,0,128,0.15);
+}
+
+/* ===== nav links inside card =========================================*/
+.neon-nav a{
+  font-weight:500;
+  color:#c9c9c9;
+  text-decoration:none;
+  position:relative;
+}
+.neon-nav a::after{
+  content:"";
+  position:absolute; left:0; bottom:-4px;
+  width:0; height:2px;
+  background:#00e0ff; transition:width .3s;
+}
+.neon-nav a:hover{ color:#fff; }
+.neon-nav a:hover::after{ width:100%; }
+
+/* ===== heading + brain ===============================================*/
+.neon-heading{
+  color:#00e0ff;
+  text-shadow:0 0 6px #00e0ff, 0 0 18px #ff0080;
+  letter-spacing:.05rem;
+  /*font-size: clamp(1.5rem, 8vw, 4rem);*/
+  animation: neonPulse 1.8s ease-in-out infinite alternate;
+}
+@keyframes neonPulse{
+  from{ text-shadow:0 0 4px #00e0ff,0 0 14px #ff0080; }
+  to  { text-shadow:0 0 10px #00e0ff,0 0 26px #ff0080; }
+}
+
+/* neon brain */
+.neon-brain{
+  max-width: auto;
+  height: auto;
+  width: 75%;
+  max-width: 400px;
+  height: auto;
+  filter: drop-shadow(0 0 15px rgba(0, 224, 255, .6))
+          drop-shadow(0 0 30px rgba(255, 0, 128, .4));
+}
+
+/* ===== floating sparkles =============================================*/
+.neon-brain::after,
+.neon-brain::before{
+  content:"\f004";               /* ♥ */
+  font-family: "Font Awesome 6 Free";
+  font-weight:900;
+  position:absolute;
+  color:#ff0080; font-size:1.25rem;
+  animation: float 10s linear infinite;
+}
+.neon-brain::before{
+  content:"\f001";               /* music note */
+  left:-40px; top:20%;
+  color:#00e0ff; animation-delay:-3s;
+}
+@keyframes float{
+  0%{ transform:translateY(0) rotate(0deg); opacity:1;}
+  100%{ transform:translateY(-80px) rotate(360deg); opacity:0;}
+}
+
+
+
+/* ===== Universal scroll bar ======================================== */
+html,body,
+.landing-page, .upload-page {        /* two big wrappers you already use */
+  overflow-x: hidden;                /* stop sideways scrolling artefacts */
+  overflow-y: auto;                  /* let every page scroll vertically  */
+  scrollbar-width: thin;             /* Firefox                           */
+  scrollbar-color: #00e0ff rgba(255,255,255,0.08);
+}
+
+/* Chrome / Edge / Safari */
+::-webkit-scrollbar        { width: 12px; }
+::-webkit-scrollbar-track  { background: rgba(255,255,255,0.05); }
+::-webkit-scrollbar-thumb  {
+  background: #00e0ff;
+  border-radius: 6px;
+  box-shadow: 0 0 6px 2px #ff0080 inset;
+}
+::-webkit-scrollbar-thumb:hover { background: #ff0080; }
+
+/* ---------------------------------------------------------------
+   Summary page card mirrors Upload / Home look
+---------------------------------------------------------------*/
+.summary-card {
+  background: rgba(10,10,20,0.88);
+  backdrop-filter: blur(6px);
+  border-radius: .75rem;
+  box-shadow: 0 0 30px rgba(0,224,255,.10);
+  border: 2px solid transparent;       /* keeps outline clean */
+}
+.summary-card .card-header {
+  background: transparent;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  color:#e0e0e0;
+  font-weight:600;
+  letter-spacing:.03rem;
+  text-transform:uppercase;
+}
+.summary-card pre,
+.summary-card p {
+  color:#e0e0e0;
+  white-space: pre-wrap;
+}
+
+/* an optional neon under-glow on hover */
+.summary-card:hover {
+  box-shadow: 0 0 12px #00e0ff, 0 0 30px #ff0080;
+}
+
+/* same heading treatment used on home (reuse class) */
+.neon-heading{
+  color:#00e0ff;
+  text-shadow:0 0 6px #00e0ff,0 0 20px #ff0080;
+}
+
+/* 1) On desktop, make the card a little wider than 600px */
+.uploader-card {
+  /* bump up from 600px to something more generous */
+  width: 90% !important;    /* fill 90% of viewport */
+  max-width: 800px !important;
+  font-size: small;
+}
+
+/* 2) On phones, kill Bootstrap’s .container gutter and center the card full-width */
+@media (max-width: 767px) {
+  /* make the wrapper container fluid */
+  .upload-page .container {
+    max-width: 100% !important;
+    padding-left: 0     !important;
+    padding-right: 0    !important;
+    font-size: 1.2rem !important;
+    line-height: 1.2 !important;
+    text-align: center;       /* center the text */
+    white-space: normal;      /* allow normal wrapping */
+  }
+
+  /* now make the glass-card nearly the full viewport width */
+  .upload-page .uploader-card {
+    width: 95vw    !important;  /* 95% of screen width */
+    max-width: none!important;  /* override any previous max-width */
+    margin: 1rem auto!important;/* center it & give a little vertical breathing room */
+    padding: 2rem 1rem!important;/* keep some inner padding */
+    min-height: auto!important; /* let it grow to its content */
+    height:     auto!important;
+  }
+}
+
+@media (max-width: 767px) {
+  /* make the card fill nearly the full width on phones */
+  .upload-page .uploader-card {
+    width: 95% !important;
+    max-width: none !important;
+    margin: 1rem auto !important;
+    padding: 1.5rem !important;
+  }
+}
+
+/*========================
+   Shrink neon headings on phones
+==========================*/
+@media (max-width: 767px) {
+  /* If it’s an H1 with class neon-heading */
+  .neon-heading {
+    font-size: 1.2rem !important;    /* or whatever size works */
+    line-height: 1.0 !important;
+    text-align: center !important;
+    padding: 0 1rem !important;      /* give it a little breathing room */
+  }
+
+  /* If instead you need to target the very first H1 inside your card: */
+  .upload-page .uploader-card h1 {
+    font-size: 2.0rem !important;
+    line-height: 1.0 !important;
+    text-align: center !important;
+  }
+}
+
+/* ===== neon buttons ===================================================*/
+.neon-btn{
+  background:transparent;
+  border:2px solid #00e0ff;
+  color:#e0e0e0; letter-spacing:.05rem;
+  text-transform:uppercase;
+  transition:background .25s,color .25s,box-shadow .25s;
+  box-shadow:0 0 10px transparent;
+}
+.neon-btn:hover,
+.neon-btn:focus{
+  background:#00e0ff; color:#0a0a0a;
+  box-shadow:0 0 12px #00e0ff,0 0 30px #ff0080;
+}
+.neon-nav {
+  background: rgba(10,10,20,0.85);
+  backdrop-filter: blur(6px);
+}
+
+.neon-nav .navbar-brand {
+  color:#00e0ff;
+  text-shadow:0 0 6px #00e0ff,0 0 14px #ff0080;
+}
+
+.neon-nav .nav-link {
+  font-weight:500;
+  color:#c9c9c9;
+  position:relative;
+  transition:color .25s;
+}
+.neon-nav .nav-link::after{
+  content:"";
+  position:absolute;
+  left:0; bottom:-4px;
+  width:0; height:2px;
+  background:#00e0ff;
+  transition:width .3s;
+}
+.neon-nav .nav-link:hover,
+.neon-nav .nav-link:focus{
+  color:#fff;
+}
+.neon-nav .nav-link:hover::after{ width:100%; }
+
+.navbar-toggler {
+  border-color:#00e0ff;
+}
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;charset=utf8, %3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E %3Cpath stroke='%2300e0ff' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+
+
+
+
