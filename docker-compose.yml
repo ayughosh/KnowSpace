@@ -1,0 +1,32 @@
+version: '3.9'
+
+networks:
+  knowspace-net:
+
+services:
+  knowspace:
+    build: .
+    container_name: knowspace
+    ports:
+      - "5001:5000"
+    environment:
+      - FLASK_ENV=production
+      - OLLAMA_HOST=http://ollama:11434
+    depends_on:
+      - ollama
+    networks:
+      - knowspace-net
+
+  ollama:
+    image: ollama/ollama
+    container_name: ollama-knowspace
+    ports:
+      - "11435:11434"
+    tty: true
+    volumes:
+      - ./run_ollama.sh:/bin/run_ollama.sh
+    entrypoint: ["/bin/sh", "-c", "/bin/run_ollama.sh"]
+    networks:
+      - knowspace-net
+    pull_policy: always
+    
