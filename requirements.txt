@@ -23,3 +23,4 @@ flask_sqlalchemy==3.0.2
 flask_migrate==4.0.0
 flask_login==0.6.3
 langdetect==1.0.9
+gunicorn==21.2.0

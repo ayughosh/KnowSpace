@@ -1,0 +1,8 @@
+.history/
+.idea/
+.lh/
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
