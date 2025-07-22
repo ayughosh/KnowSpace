@@ -1,5 +1,6 @@
 import os
 from ollama import chat
+import ollama
 from langdetect import detect, LangDetectException
 from flask import(Blueprint, render_template, request, redirect, url_for, flash, current_app, abort)
 from werkzeug.utils import secure_filename
@@ -13,10 +14,9 @@ main=Blueprint("main",__name__)
 ALLOWED_EXTENSIONS={"wav", "mp3", "mp4", "m4a", "flac", "ogg","webm","pdf","doc","docx","txt"}
 def allowed_file(filename):
     return "." in filename and filename.rsplit(".",1)[1].lower() in ALLOWED_EXTENSIONS
-
+#ollama.base_url = os.getenv("OLLAMA_HOST", "http://localhost:11434")
 #load Whisper models once at startup
 MODEL=whisper.load_model("base",device="cpu")
-MODEL.model.half = lambda: MODEL
 def transcribe_with_whisper(path_to_file):
     """
     Run Whisper on the saved audio file.
