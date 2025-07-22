@@ -127,52 +127,56 @@ def upload_audio():
         # 1. Handle document uploads: PDF, DOC, DOCX, TXT
         if has_file:
             ext = file.filename.rsplit(".", 1)[-1].lower()
-            if ext == "pdf":
-                detected_type = "pdf"
-                reader = PdfReader(file)
-                pages = [page.extract_text() or "" for page in reader.pages]
-                text_to_summarize = "\n".join(pages)
-            elif ext in ["doc", "docx"]:
-                detected_type = "docx"
-                doc = Document(file)
-                paras = [p.text for p in doc.paragraphs if p.text]
-                text_to_summarize = "\n".join(paras)
-            elif ext == "txt":
-                detected_type = "txt"
-                # read raw text
-                raw = file.read()
-                text_to_summarize = raw.decode("utf-8", errors="ignore")
-            # NEW: Handle any audio file (including our recorded .webm blob)
-            elif ext in ("wav", "mp3", "m4a", "flac", "ogg", "webm"):
-                detected_type = "audio"
-                # If we have an audio file, we'll save it and run Whisper
-                upload_path = os.path.join(
-                    current_app.config["UPLOAD_FOLDER"], secure_filename(file.filename)
-                )
-                file.save(upload_path)
-                # 2️⃣ transcribe it
-                try:
-                    text_to_summarize = transcribe_with_whisper(upload_path)
-                except Exception as e:
-                    flash(f"Whisper transcription failed: {e}", "danger")
-                    return redirect(request.url)
+            upload_path = os.path.join(current_app.config["UPLOAD_FOLDER"], secure_filename(file.filename))
+            file.save(upload_path)
+            try:
+                
+                if ext == "pdf":
+                    try:
+                        detected_type="pdf"
+                        reader = PdfReader(upload_path)
+                        pages = [page.extract_text() or "" for page in reader.pages]
+                        text_to_summarize = "\n".join(pages)
+                    except Exception as e:
+                        flash(f"PDF extraction failed: {e}", "danger")
+                elif ext in ["doc", "docx"]:
+                    detected_type = "docx"
+                    doc = Document(upload_path)
+                    paras = [p.text for p in doc.paragraphs if p.text]
+                    text_to_summarize = "\n".join(paras)
+                elif ext == "txt":
+                    detected_type = "txt"
+                    # read raw text
+                    with open(upload_path, "r", encoding="utf-8", errors="ignore") as f:
+                        text_to_summarize = f.read()
+                # NEW: Handle any audio file (including our recorded .webm blob)
+                elif ext in ("wav", "mp3", "m4a", "flac", "ogg", "webm"):
+                    detected_type = "audio"
+                    # 2️⃣ transcribe it
+                    try:
+                        text_to_summarize = transcribe_with_whisper(upload_path)
+                    except Exception as e:
+                        flash(f"Whisper transcription failed: {e}", "danger")
+                        return redirect(request.url)
+            except Exception as e:
+                flash(f"{ext.upper()} processing failed: {e}", "danger")
 
         if not text_to_summarize and raw_text:
             # If the user pasted text, use that
             text_to_summarize = raw_text.strip()
 
-        if not text_to_summarize and has_file and allowed_file(file.filename):
-            # If we have a file and it's an audio file, save it
-            filename = secure_filename(file.filename)
-            upload_path = os.path.join(current_app.config["UPLOAD_FOLDER"], filename)
-            file.save(upload_path)
+        # if not text_to_summarize and has_file and allowed_file(file.filename):
+        #     # If we have a file and it's an audio file, save it
+        #     filename = secure_filename(file.filename)
+        #     upload_path = os.path.join(current_app.config["UPLOAD_FOLDER"], filename)
+        #     file.save(upload_path)
 
             # 1. Run Whisper transcription
-            try:
-                text_to_summarize = transcribe_with_whisper(upload_path)
-            except Exception as e:
-                flash(f"Whisper transcription failed: {e}", "danger")
-                return redirect(request.url)
+            # try:
+            #     text_to_summarize = transcribe_with_whisper(upload_path)
+            # except Exception as e:
+            #     flash(f"Whisper transcription failed: {e}", "danger")
+            #     return redirect(request.url)
 
         if not text_to_summarize:
             flash(
