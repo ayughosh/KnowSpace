@@ -15,14 +15,14 @@ def allowed_file(filename):
     return "." in filename and filename.rsplit(".",1)[1].lower() in ALLOWED_EXTENSIONS
 
 #load Whisper models once at startup
-MODEL=whisper.load_model("base")
-
+MODEL=whisper.load_model("base",device="cpu")
+MODEL.model.half = lambda: MODEL
 def transcribe_with_whisper(path_to_file):
     """
     Run Whisper on the saved audio file.
     Returns the raw transcription text.
     """
-    result=MODEL.transcribe(path_to_file)
+    result=MODEL.transcribe(path_to_file, fp16=False)
     return result["text"]
 
 # app/utils.py  (or wherever your helper lives)
