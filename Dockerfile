@@ -9,7 +9,7 @@ COPY . .
 
 # Install system dependencies (you can modify as needed)
 RUN apt-get update && \
-    apt-get install -y curl gcc libpq-dev && \
+    apt-get install -y curl gcc libpq-dev ffmpeg && \
     rm -rf /var/lib/apt/lists/*
 
 # Install Python dependencies
