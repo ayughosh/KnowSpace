@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block body_class %}upload-page{% endblock %}
+{% block content %}
+<div class="container py-5">
+  <h2>Saved Entry</h2>
+  <div class="mb-3">
+    <strong>When:</strong>
+    {{ entry.timestamp.strftime("%Y-%m-%d %H:%M:%S") }}
+  </div>
+  <div class="mb-3">
+    <strong>Type:</strong>
+    {{ entry.entry_type|capitalize }}
+  </div>
+  <div class="mb-4">
+    <strong>Original Content:</strong>
+    <pre class="p-3 bg-dark text-light border rounded">{{ entry.content }}</pre>
+  </div>
+  <div class="mb-4">
+    <strong>Summary:</strong>
+    <pre class="p-3 bg-light text-dark border rounded">{{ entry.summary }}</pre>
+  </div>
+  <a href="{{ url_for('main.history') }}" class="btn btn-secondary">← Back to History</a>
+</div>
+{% endblock %}

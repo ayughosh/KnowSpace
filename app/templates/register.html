@@ -1,0 +1,61 @@
+{% extends "base.html" %} {% block title %}Register - KnowSpace{% endblock %} {%
+block content %}
+<div
+  class="container d-flex justify-content-center align-items-center min-vh-100"
+>
+  <div
+    class="card shadow-lg p-5 rounded-4 text-white my-5"
+    style="
+      max-width: 540px;
+      width: 100%;
+      min-height: 520px;
+      margin: 40px auto;
+      padding: 40px;
+      background-color: rgba(20, 20, 20, 0.9);
+    "
+  >
+    <h2 class="text-center mb-4">Register to KnowSpace</h2>
+    <form method="POST" action="{{ url_for('auth.register') }}">
+      <div class="form-group mb-3">
+        <label for="username">Username</label>
+        <input
+          type="text"
+          name="username"
+          id="username"
+          class="form-control"
+          placeholder="Your username"
+          required
+        />
+      </div>
+      <div class="form-group mb-3">
+        <label for="email">Email</label>
+        <input
+          type="email"
+          name="email"
+          id="email"
+          class="form-control"
+          placeholder="example@domain.com"
+          pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+          title="Enter a valid email like abc@example.com"
+          required
+        />
+      </div>
+      <div class="form-group mb-4">
+        <label for="password">Password</label>
+        <input
+          type="password"
+          name="password"
+          id="password"
+          class="form-control"
+          placeholder="Create password"
+          required
+        />
+      </div>
+      <button type="submit" class="btn btn-primary w-100">Register</button>
+    </form>
+    <p class="text-center mt-3 mb-0">
+      Already a member? <a href="{{ url_for('auth.login') }}">Login here</a>
+    </p>
+  </div>
+</div>
+{% endblock %}

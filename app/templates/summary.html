@@ -1,0 +1,49 @@
+{# -------------------------------------------------------------------
+   SUMMARY PAGE  –  inherits neon navbar, gradient background
+-------------------------------------------------------------------- #}
+{% extends "base.html" %}
+
+{% block title %}KnowSpace | Transcription & Summary{% endblock %}
+
+{# use the gradient + any summary-specific helpers #}
+{% block body_class %}summary-page neon-bg{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+
+  <h1 class="display-4 fw-bold neon-heading mb-5 text-center text-lg-start">
+    Transcription&nbsp;<span class="d-none d-lg-inline">&amp;</span><br class="d-lg-none">
+    Summary
+  </h1>
+
+  {# ---------- Whisper block ---------------------------------------- #}
+  <div class="summary-card mb-5">
+    <div class="card-header">
+      <i class="fa-solid fa-microphone-lines pe-1"></i>
+      <strong>Whisper Transcription</strong>
+    </div>
+
+    <div class="card-body">
+      <pre class="mb-0">{{ transcript }}</pre>
+    </div>
+  </div>
+
+  {# ---------- Gemma block ------------------------------------------ #}
+  <div class="summary-card mb-5">
+    <div class="card-header">
+      <i class="fa-solid fa-pencil pe-1"></i>
+      <strong>Gemma Summary</strong>
+    </div>
+
+    <div class="card-body">
+      <p class="mb-0">{{ summary }}</p>
+    </div>
+  </div>
+
+  <a href="{{ url_for('main.upload_audio') }}"
+     class="btn neon-btn btn-lg">
+     ← Upload Another File
+  </a>
+
+</div>
+{% endblock %}

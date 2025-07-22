@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}KnowSpace{% endblock %}
+{% block body_class %}landing-page{% endblock %}
+
+{% block content %}
+<div class="landing-wrapper d-flex justify-content-center align-items-center">
+  <div class="neon-card shadow-lg">
+    <div class="row gx-5 gy-4 p-5 align-items-center">
+      <!-- left column --------------------------------------------------->
+      <div class="col-lg-5 text-center text-lg-start">
+        <h1 class="display-4 fw-bold neon-heading">KNOW<br>SPACE</h1>
+        <p class="lead mb-4">
+          Capture your thoughts, summarise knowledge,<br class="d-none d-lg-block">
+          and visualise memories—instantly.
+        </p>
+        <a href="{{ url_for('main.upload_audio') }}"
+           class="btn neon-btn btn-lg px-4">Get Started</a>
+      </div>
+
+      <!-- right column -------------------------------------------------->
+      <div class="col-lg-7 text-center position-relative">
+        <img src="{{ url_for('static', filename='images/brain.png') }}"
+             class="neon-brain img-fluid" alt="Brain logo">
+        <!-- floating sparkles & extras generated with CSS -->
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  /* colour-flash on button click */
+  const colours = ["#00e0ff","#ff0080","#8cff00","#ff8c00"];
+  document.querySelectorAll(".neon-btn").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      const c = colours[~~(Math.random()*colours.length)];
+      btn.style.boxShadow = `0 0 12px ${c}, 0 0 30px ${c}`;
+      btn.style.background = c;
+      setTimeout(()=>btn.removeAttribute("style"),300);
+    });
+  });
+</script>
+{% endblock %}
