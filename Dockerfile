@@ -19,4 +19,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 EXPOSE 5000
 
 # Start your Flask app using Gunicorn, pointing to wsgi.py's app object
-CMD ["/bin/sh", "-c", "until curl -s http://ollama:11434; do echo 'Waiting for Ollama...'; sleep 2; done && gunicorn -w 4 -b 0.0.0.0:5000 wsgi:app"]
+CMD ["/bin/sh", "-c", "until curl -s http://ollama:11434; do echo 'Waiting for Ollama...'; sleep 2; done && gunicorn -w 1 -b 0.0.0.0:5000 wsgi:app"]
