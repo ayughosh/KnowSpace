@@ -16,7 +16,7 @@ from PyPDF2 import PdfReader
 import whisper
 from flask_login import login_required, current_user
 from app.database_utils import db, Entry
-
+from app.semantic_search import semantic_index
 main = Blueprint("main", __name__)
 ALLOWED_EXTENSIONS = {
     "wav",
@@ -195,6 +195,8 @@ def upload_audio():
                 entry.user_id = current_user.id
                 db.session.add(entry)
                 db.session.commit()
+                # index summary for semantic search
+                semantic_index.add(entry.id, summary)
         except Exception as e:
             flash(f"Gemma summarization failed: {e}", "danger")
             return redirect(request.url)
@@ -224,3 +226,15 @@ def view_entry(id):
     if e.user_id != current_user.id:
         abort(403)
     return render_template("entry.html", entry=e)
+
+
+
+
+@main.route('/search', methods=['GET', 'POST'])
+@login_required
+def search():
+    results = []
+    if request.method == 'POST':
+        query = request.form['q']
+        results = semantic_index.search(query, k=5)
+    return render_template('search.html', results=results)
